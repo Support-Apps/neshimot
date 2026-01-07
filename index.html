@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 נשימות חדוה</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+        
+        body {
+            background: #FFF5F7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .bsd {
+            position: fixed;
+            top: 10px;
+            right: 15px;
+            color: #D4A574;
+            font-size: 0.9em;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #D4A574;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .letters-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .letter-box {
+            background: #fff;
+            border: 3px solid #FFB6C1;
+            border-radius: 15px;
+            padding: 15px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .letter-box.active {
+            background: #FFB6C1;
+            transform: scale(1.1);
+        }
+        
+        .letter-box.active .letter {
+            color: #fff;
+        }
+        
+        .letter-box.active .letter-info {
+            color: #fff;
+        }
+        
+        .letter {
+            font-size: 2em;
+            font-weight: 700;
+            color: #D4A574;
+        }
+        
+        .letter-info {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .circle-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .breathing-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #FFB6C1;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
+            transition: all 0.1s linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timer-display {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .instruction-text {
+            font-size: 1.8em;
+            color: #D4A574;
+            margin-bottom: 20px;
+            min-height: 50px;
+            font-weight: 600;
+        }
+        
+        .cycle-counter {
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .btn {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-start {
+            background: #B8E6D4;
+            color: #333;
+        }
+        
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(184, 230, 212, 0.5);
+        }
+        
+        .btn-stop {
+            background: #FFB6C1;
+            color: #fff;
+        }
+        
+        .btn-stop:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.5);
+        }
+        
+        .info-box {
+            background: #fff;
+            border: 2px solid #D4A574;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: right;
+        }
+        
+        .info-box h3 {
+            color: #D4A574;
+            margin-bottom: 15px;
+        }
+        
+        .info-box p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .info-box .highlight {
+            background: #FFF0F3;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .cycle-selector {
+            margin-bottom: 20px;
+        }
+        
+        .cycle-selector label {
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .cycle-selector select {
+            padding: 10px 20px;
+            border: 2px solid #B8E6D4;
+            border-radius: 10px;
+            font-size: 1em;
+            background: #fff;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="bsd">בס"ד</div>
+    
+    <div class="container">
+        <h1>🌸 נשימות חדוה</h1>
+        <p class="subtitle">ח-ד-ו-ה • נשימה מרגיעה ומחדשת</p>
+        
+        <div class="letters-display">
+            <div class="letter-box" id="letterCh">
+                <div class="letter">ח</div>
+                <div class="letter-info">שאיפה 8</div>
+            </div>
+            <div class="letter-box" id="letterD">
+                <div class="letter">ד</div>
+                <div class="letter-info">עצירה 4</div>
+            </div>
+            <div class="letter-box" id="letterV">
+                <div class="letter">ו</div>
+                <div class="letter-info">נשיפה 6</div>
+            </div>
+            <div class="letter-box" id="letterH">
+                <div class="letter">ה</div>
+                <div class="letter-info">עצירה 5</div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3>💜 על נשימות חדוה</h3>
+            <p><span class="highlight">ח = 8</span> שניות שאיפה - מילוי הריאות באוויר</p>
+            <p><span class="highlight">ד = 4</span> שניות עצירה - החזקת האוויר</p>
+            <p><span class="highlight">ו = 6</span> שניות נשיפה - שחרור האוויר לאט</p>
+            <p><span class="highlight">ה = 5</span> שניות עצירה - לפני השאיפה הבאה</p>
+            <p style="margin-top: 15px; color: #D4A574; font-weight: 500;">סה"כ מחזור: 23 שניות של חדוה ושלוה 🌸</p>
+        </div>
+        
+        <div class="circle-container">
+            <div class="breathing-circle" id="breathCircle">
+                <span class="timer-display" id="timerDisplay">0</span>
+            </div>
+        </div>
+        
+        <div class="instruction-text" id="instructionText">לחצי להתחיל</div>
+        
+        <div class="cycle-counter" id="cycleCounter">מחזור: 0</div>
+        
+        <div class="cycle-selector">
+            <label>מספר מחזורים:</label>
+            <select id="cycleSelect">
+                <option value="3">3 מחזורים</option>
+                <option value="5" selected>5 מחזורים</option>
+                <option value="7">7 מחזורים</option>
+                <option value="10">10 מחזורים</option>
+                <option value="0">ללא הגבלה</option>
+            </select>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-start" id="startBtn" onclick="startBreathing()">▶️ התחלה</button>
+            <button class="btn btn-stop" id="stopBtn" onclick="stopBreathing()" style="display: none;">⏹️ עצירה</button>
+        </div>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let currentPhase = 0;
+        let currentSecond = 0;
+        let currentCycle = 0;
+        let targetCycles = 5;
+        let intervalId = null;
+        let speechSynth = window.speechSynthesis;
+        let femaleVoice = null;
+        
+        const phases = [
+            { name: 'inhale', duration: 8, text: 'שואפים...', letter: 'letterCh', instruction: 'שאיפה', minSize: 100, maxSize: 220 },
+            { name: 'hold1', duration: 4, text: 'עוצרים...', letter: 'letterD', instruction: 'עצירה', minSize: 220, maxSize: 220 },
+            { name: 'exhale', duration: 6, text: 'נושפים...', letter: 'letterV', instruction: 'נשיפה', minSize: 220, maxSize: 100 },
+            { name: 'hold2', duration: 5, text: 'עוצרים...', letter: 'letterH', instruction: 'עצירה', minSize: 100, maxSize: 100 }
+        ];
+        
+        // Hebrew numbers for countdown (feminine form)
+        const hebrewNumbers = {
+            1: 'אחת',
+            2: 'שתיים', 
+            3: 'שלוש',
+            4: 'ארבע',
+            5: 'חמש',
+            6: 'שש',
+            7: 'שבע',
+            8: 'שמונה'
+        };
+        
+        function loadVoices() {
+            const voices = speechSynth.getVoices();
+            
+            // Try to find a female Hebrew voice - prioritize known female voices
+            femaleVoice = voices.find(v => v.name.includes('Carmit')) || // iOS Hebrew female
+                          voices.find(v => v.name.includes('Google') && v.lang.includes('he')) ||
+                          voices.find(v => v.lang.includes('he-IL')) ||
+                          voices.find(v => v.lang.includes('he')) ||
+                          voices.find(v => v.lang.includes('iw')) ||
+                          null;
+        }
+        
+        function speak(text, callback) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'he-IL';
+            utterance.rate = 1.3;
+            utterance.pitch = 1.3;
+            utterance.volume = 1;
+            
+            if (femaleVoice) {
+                utterance.voice = femaleVoice;
+            }
+            
+            if (callback) {
+                utterance.onend = callback;
+            }
+            
+            speechSynth.speak(utterance);
+        }
+        
+        function speakNumber(num) {
+            if (hebrewNumbers[num]) {
+                speechSynth.cancel();
+                const utterance = new SpeechSynthesisUtterance(hebrewNumbers[num]);
+                utterance.lang = 'he-IL';
+                utterance.rate = 2.5;
+                utterance.pitch = 1.3;
+                utterance.volume = 1;
+                
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+                
+                speechSynth.speak(utterance);
+            }
+        }
+        
+        function updateCircle(phase, secondsIntoPhase) {
+            const circle = document.getElementById('breathCircle');
+            
+            const minSize = 100;
+            const maxSize = 220;
+            
+            // Calculate progress so it reaches 1.0 at the last second
+            const progress = phase.duration > 1 ? secondsIntoPhase / (phase.duration - 1) : 1;
+            const clampedProgress = Math.min(progress, 1);
+            
+            let size;
+            if (phase.name === 'inhale') {
+                // Grow from small to big
+                size = minSize + (maxSize - minSize) * clampedProgress;
+            } else if (phase.name === 'hold1') {
+                // Stay big (after inhale)
+                size = maxSize;
+            } else if (phase.name === 'exhale') {
+                // Shrink from big to small
+                size = maxSize - (maxSize - minSize) * clampedProgress;
+            } else {
+                // hold2 - Stay small (after exhale)
+                size = minSize;
+            }
+            
+            circle.style.width = size + 'px';
+            circle.style.height = size + 'px';
+        }
+        
+        function updateLetterHighlight() {
+            document.querySelectorAll('.letter-box').forEach(box => box.classList.remove('active'));
+            document.getElementById(phases[currentPhase].letter).classList.add('active');
+        }
+        
+        function tick() {
+            const phase = phases[currentPhase];
+            
+            // Calculate current count (counting UP from 1)
+            const currentCount = currentSecond + 1;
+            
+            // Update display
+            document.getElementById('timerDisplay').textContent = currentCount;
+            document.getElementById('instructionText').textContent = phase.text;
+            updateCircle(phase, currentSecond);
+            updateLetterHighlight();
+            
+            // Speak: instruction + first number, or just the number
+            if (currentSecond === 0) {
+                // First second of phase - say instruction with number
+                speechSynth.cancel();
+                const utterance = new SpeechSynthesisUtterance(phase.instruction + ' ' + hebrewNumbers[1]);
+                utterance.lang = 'he-IL';
+                utterance.rate = 1.8;
+                utterance.pitch = 1.3;
+                utterance.volume = 1;
+                if (femaleVoice) utterance.voice = femaleVoice;
+                speechSynth.speak(utterance);
+            } else {
+                // Other seconds - just say the number
+                speakNumber(currentCount);
+            }
+            
+            currentSecond++;
+            
+            // Check if phase is complete
+            if (currentSecond >= phase.duration) {
+                currentSecond = 0;
+                currentPhase++;
+                
+                // Check if cycle is complete
+                if (currentPhase >= phases.length) {
+                    currentPhase = 0;
+                    currentCycle++;
+                    document.getElementById('cycleCounter').textContent = 'מחזור: ' + currentCycle;
+                    
+                    // Check if all cycles are complete
+                    if (targetCycles > 0 && currentCycle >= targetCycles) {
+                        stopBreathing();
+                        setTimeout(() => {
+                            speak('כל הכבוד! סיימת את התרגיל');
+                        }, 500);
+                        document.getElementById('instructionText').textContent = '🎉 סיימת! יישר כוח!';
+                        return;
+                    }
+                }
+            }
+        }
+        
+        function startBreathing() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            currentPhase = 0;
+            currentSecond = 0;
+            currentCycle = 0;
+            targetCycles = parseInt(document.getElementById('cycleSelect').value);
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            document.getElementById('cycleCounter').textContent = 'מחזור: 0';
+            
+            // Load voices
+            loadVoices();
+            
+            // Start announcement then begin
+            speak('מתחילות נשימות חדווה', function() {
+                setTimeout(() => {
+                    intervalId = setInterval(tick, 1000);
+                }, 300);
+            });
+        }
+        
+        function stopBreathing() {
+            isRunning = false;
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+            speechSynth.cancel();
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('instructionText').textContent = 'לחצי להתחיל';
+            document.getElementById('timerDisplay').textContent = '0';
+            
+            // Reset circle
+            const circle = document.getElementById('breathCircle');
+            circle.style.width = '100px';
+            circle.style.height = '100px';
+            
+            // Reset letter highlights
+            document.querySelectorAll('.letter-box').forEach(box => box.classList.remove('active'));
+        }
+        
+        // Load voices when available
+        loadVoices();
+        if (speechSynth.onvoiceschanged !== undefined) {
+            speechSynth.onvoiceschanged = loadVoices;
+        }
+    </script>
+</body>
+</html>
